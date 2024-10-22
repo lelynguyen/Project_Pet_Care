@@ -1,5 +1,4 @@
-﻿@model PetCare.ViewModels.AccountViewModel
-
+﻿@model IEnumerable<PetCare.Models.Account>
 
 @{
     ViewBag.Title = "Quản lý tài khoản";
@@ -25,11 +24,11 @@
         </div>
     }
 
-   @*  <div class="mb-3">
+    <div class="mb-3">
         <a href="@Url.Action("Create")" class="btn btn-success">
             <i class="bi bi-plus-circle"></i> Thêm tài khoản
         </a>
-    </div> *@
+    </div>
 
     <!-- Thanh tìm kiếm và bộ lọc -->
     <div class="row mb-3">

@@ -253,3 +253,4 @@ D:\Workspace\DOT NET FULLSTACK\PETCARE\PetCare\PetCare\obj\Debug\net7.0\PetCare.
 D:\Workspace\DOT NET FULLSTACK\PETCARE\PetCare\PetCare\obj\Debug\net7.0\ref\PetCare.dll
 D:\Workspace\DOT NET FULLSTACK\PETCARE\PetCare\PetCare\obj\Debug\net7.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 D:\Workspace\DOT NET FULLSTACK\PETCARE\PetCare\PetCare\obj\Debug\net7.0\scopedcss\projectbundle\PetCare.bundle.scp.css
+D:\Workspace\DOT NET FULLSTACK\PETCARE\PetCare\PetCare\obj\Debug\net7.0\PetCare.sourcelink.json

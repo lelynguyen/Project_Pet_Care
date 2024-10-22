@@ -1,20 +1,20 @@
-﻿@model PetCare.ViewModels.AccountViewModel[]
+﻿@model IEnumerable<PetCare.Models.Account>
 
 @if (Model.Any())
 {
     @foreach (var account in Model)
     {
         <tr>
-            <td>@account.Id</td>
+            <td>@account.AccountId</td>
             <td>@account.Email</td>
             <td>@account.FullName</td>
             <td>@account.PhoneNumber</td>
             <td>@account.Address</td>
             <td>
-                <a href="@Url.Action("Edit", new { id = account.Id })" class="btn btn-primary btn-sm">
+                <a href="@Url.Action("Edit", new { id = account.AccountId })" class="btn btn-primary btn-sm">
                     <i class="bi bi-pencil-square"></i>
                 </a>
-                <a href="@Url.Action("Delete", new { id = account.Id })" class="btn btn-danger btn-sm">
+                <a href="@Url.Action("Delete", new { id = account.AccountId })" class="btn btn-danger btn-sm">
                     <i class="bi bi-trash"></i>
                 </a>
             </td>

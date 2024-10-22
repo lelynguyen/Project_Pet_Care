@@ -1,0 +1,130 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Dashboard</h2>
+
+    <!-- Thống kê số lượng khách hàng và thú cưng -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Số lượng khách hàng</h5>
+                    <p class="card-text display-4">@ViewBag.CustomerCount</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Số lượng thú cưng</h5>
+                    <p class="card-text display-4">@ViewBag.PetCount</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Biểu đồ số lượng lịch hẹn trong 4 tháng gần đây -->
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Số lượng lịch hẹn trong 4 tháng gần đây</h4>
+            <canvas id="appointmentChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Biểu đồ tỷ lệ trạng thái lịch hẹn và bài đăng -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h4>Tỷ lệ trạng thái lịch hẹn</h4>
+            <canvas id="appointmentStatusChart"></canvas>
+        </div>
+
+        <div class="col-md-6">
+            <h4>Số lượng bài đăng trong 3 tháng gần đây</h4>
+            <canvas id="postChart"></canvas>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Thêm thư viện Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Dữ liệu cho biểu đồ lịch hẹn
+        var appointmentData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.AppointmentData));
+
+        var ctx = document.getElementById('appointmentChart').getContext('2d');
+        var appointmentChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: appointmentData.map(a => a.Month),
+                datasets: [{
+                    label: 'Số lượng lịch hẹn',
+                    data: appointmentData.map(a => a.Count),
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        precision: 0
+                    }
+                }
+            }
+        });
+
+        // Dữ liệu cho biểu đồ trạng thái lịch hẹn
+        var statusLabels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.AppointmentStatusLabels));
+        var statusCounts = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.AppointmentStatusCounts));
+
+        var ctxStatus = document.getElementById('appointmentStatusChart').getContext('2d');
+        var appointmentStatusChart = new Chart(ctxStatus, {
+            type: 'pie',
+            data: {
+                labels: statusLabels,
+                datasets: [{
+                    data: statusCounts,
+                    backgroundColor: ['#28a745', '#dc3545']
+                }]
+            }
+        });
+
+        // Dữ liệu cho biểu đồ bài đăng
+        var postData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.PostData));
+
+        var ctxPost = document.getElementById('postChart').getContext('2d');
+        var postChart = new Chart(ctxPost, {
+            type: 'bar',
+            data: {
+                labels: postData.map(p => p.Month),
+                datasets: [
+                    {
+                        label: 'Tổng số bài đăng',
+                        data: postData.map(p => p.TotalPosts),
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)'
+                    },
+                    {
+                        label: 'Bài đăng bị ẩn',
+                        data: postData.map(p => p.HiddenPosts),
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        precision: 0
+                    }
+                }
+            }
+        });
+
+    </script>
+}

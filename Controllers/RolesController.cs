@@ -61,6 +61,7 @@ namespace PetCare.Controllers
             {
                 _context.Add(role);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Thêm vai trò mới thành công!";
                 return RedirectToAction(nameof(Index));
             }
             return View(role);
@@ -100,6 +101,8 @@ namespace PetCare.Controllers
                 {
                     _context.Update(role);
                     await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Chỉnh sửa thông tin thành công!";
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
