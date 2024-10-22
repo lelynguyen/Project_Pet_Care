@@ -1,0 +1,106 @@
+﻿@model PetCare.ViewModels.AccountViewModel
+
+
+@{
+    ViewBag.Title = "Quản lý tài khoản";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Danh sách tài khoản</h2>
+
+    <!-- Phần hiển thị TempData Message -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="tempDataMessage">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="tempDataMessage">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+   @*  <div class="mb-3">
+        <a href="@Url.Action("Create")" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Thêm tài khoản
+        </a>
+    </div> *@
+
+    <!-- Thanh tìm kiếm và bộ lọc -->
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm theo email hoặc số điện thoại" />
+        </div>
+        <div class="col-md-3">
+            <select id="accountTypeFilter" class="form-select">
+                <option value="">-- Chọn loại tài khoản --</option>
+                <option value="Employee">Nhân viên</option>
+                <option value="Customer">Khách hàng</option>
+            </select>
+        </div>
+    </div>
+
+    <table class="table table-striped table-hover" id="accountsTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Họ và tên</th>
+                <th>Số điện thoại</th>
+                <th>Địa chỉ</th>
+                <th>Chức năng</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dữ liệu sẽ được tải bằng AJAX -->
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <!-- Đảm bảo rằng jQuery đã được bao gồm -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Hàm tải dữ liệu tài khoản
+            function loadAccounts() {
+                var searchString = $('#searchInput').val();
+                var accountType = $('#accountTypeFilter').val();
+
+                $.ajax({
+                    url: '@Url.Action("GetAccounts", "Accounts")',
+                    type: 'GET',
+                    data: {
+                        searchString: searchString,
+                        accountType: accountType
+                    },
+                    success: function (data) {
+                        $('#accountsTable tbody').html(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Lỗi khi tải dữ liệu:', error);
+                    }
+                });
+            }
+
+            // Gọi hàm loadAccounts khi trang được tải
+            loadAccounts();
+
+            // Tìm kiếm theo thời gian thực
+            $('#searchInput').on('keyup', function () {
+                loadAccounts();
+            });
+
+            // Lọc theo loại tài khoản
+            $('#accountTypeFilter').on('change', function () {
+                loadAccounts();
+            });
+        });
+    </script>
+}

@@ -1,0 +1,37 @@
+﻿@model PetCare.Models.Service
+
+@{
+    ViewBag.Title = "Chỉnh sửa dịch vụ";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Chỉnh sửa dịch vụ</h2>
+
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="ServiceId" />
+        <div class="mb-3">
+            <label asp-for="ServiceName" class="form-label">Loại dịch vụ</label>
+            <input asp-for="ServiceName" class="form-control" required />
+            <span asp-validation-for="ServiceName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Price" class="form-label">Giá (đồng)</label>
+            <input asp-for="Price" class="form-control" required />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Note" class="form-label">Ghi chú</label>
+            <textarea asp-for="Note" class="form-control"></textarea>
+            <span asp-validation-for="Note" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-success">
+            <i class="bi bi-save"></i> Lưu thay đổi
+        </button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

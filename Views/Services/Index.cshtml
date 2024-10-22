@@ -1,0 +1,63 @@
+﻿@model IEnumerable<PetCare.Models.Service>
+
+@{
+    ViewBag.Title = "Danh sách dịch vụ";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Danh sách dịch vụ</h2>
+
+    <!-- Phần hiển thị TempData Message -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="tempDataMessage">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="tempDataMessage">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="mb-3">
+            <a href="@Url.Action("Create")" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Thêm dịch vụ
+            </a>
+    </div>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Loại dịch vụ</th>
+                <th>Giá (đồng)</th>
+                <th>Ghi chú</th>
+                <th>Chức năng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var service in Model)
+            {
+                <tr>
+                    <td>@service.ServiceId</td>
+                    <td>@service.ServiceName</td>
+                    <td>@string.Format("{0:N0}", service.Price)</td>
+                    <td>@service.Note</td>
+                    <td>
+                        <a href="@Url.Action("Edit", new { id = service.ServiceId })" class="btn btn-primary btn-sm">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a href="@Url.Action("Delete", new { id = service.ServiceId })" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

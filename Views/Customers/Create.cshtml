@@ -1,0 +1,68 @@
+﻿@model PetCare.Models.Customer
+
+@{
+    ViewBag.Title = "Thêm khách hàng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Thêm mới khách hàng</h2>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <form asp-action="Create" method="post">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="Account.FullName" class="form-label">Họ và tên</label>
+                    <input asp-for="Account.FullName" class="form-control" required />
+                    <span asp-validation-for="Account.FullName" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Account.Email" class="form-label">Email</label>
+                    <input asp-for="Account.Email" class="form-control" type="email" required />
+                    <span asp-validation-for="Account.Email" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Account.Password" class="form-label">Mật khẩu</label>
+                    <div class="input-group">
+                        <input asp-for="Account.Password" class="form-control" type="password" id="password" required />
+                        <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('password', this)">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                    <span asp-validation-for="Account.Password" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Account.PhoneNumber" class="form-label">Số điện thoại</label>
+                    <input asp-for="Account.PhoneNumber" class="form-control" required />
+                    <span asp-validation-for="Account.PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Account.Address" class="form-label">Địa chỉ</label>
+                    <input asp-for="Account.Address" class="form-control" required />
+                    <span asp-validation-for="Account.Address" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-save"></i> Thêm
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        function togglePassword(fieldId, btn) {
+            var field = document.getElementById(fieldId);
+            if (field.type === "password") {
+                field.type = "text";
+                btn.innerHTML = '<i class="bi bi-eye-slash"></i>';
+            } else {
+                field.type = "password";
+                btn.innerHTML = '<i class="bi bi-eye"></i>';
+            }
+        }
+    </script>
+}

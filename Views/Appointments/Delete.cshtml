@@ -1,0 +1,48 @@
+﻿@model PetCare.Models.Appointment
+
+@{
+    ViewBag.Title = "Xoá cuộc hẹn";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Xoá cuộc hẹn</h2>
+    <h4>Bạn có chắc chắn muốn xoá cuộc hẹn này?</h4>
+
+    <dl class="row">
+        <dt class="col-sm-3">ID</dt>
+        <dd class="col-sm-9">@Model.AppointmentId</dd>
+
+        <dt class="col-sm-3">Khách hàng</dt>
+        <dd class="col-sm-9">@Model.Customer.Account.FullName</dd>
+
+        <dt class="col-sm-3">Số điện thoại</dt>
+        <dd class="col-sm-9">@Model.Customer.Account.PhoneNumber</dd>
+
+        <dt class="col-sm-3">Dịch vụ</dt>
+        <dd class="col-sm-9">@Model.Service.ServiceName</dd>
+
+        <dt class="col-sm-3">Thời gian hẹn</dt>
+        <dd class="col-sm-9">@Model.AppointmentTime.ToString("dd/MM/yyyy HH:mm")</dd>
+
+        <dt class="col-sm-3">Trạng thái</dt>
+        <dd class="col-sm-9">
+            @if (!Model.Status)
+            {
+                <span class="badge bg-warning text-dark">Chưa hoàn thành</span>
+            }
+            else
+            {
+                <span class="badge bg-success">Hoàn thành</span>
+            }
+        </dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="AppointmentId" />
+        <button type="submit" class="btn btn-danger">
+            <i class="bi bi-trash"></i> Xoá
+        </button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>

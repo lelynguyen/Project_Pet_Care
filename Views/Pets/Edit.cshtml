@@ -1,0 +1,49 @@
+﻿@model PetCare.Models.Pet
+
+@{
+    ViewBag.Title = "Chỉnh sửa thú cưng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Chỉnh sửa thông tin thú cưng</h2>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <form asp-action="Edit" asp-route-id="@Model.PetId" method="post">
+        <input type="hidden" asp-for="PetId" />
+        <input type="hidden" asp-for="CustomerId" />
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Tên thú cưng</label>
+            <input asp-for="Name" class="form-control" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="TypePetId" class="form-label">Loại thú cưng</label>
+            <select asp-for="TypePetId" asp-items="ViewBag.TypePetId" class="form-select" required>
+                <option value="">-- Chọn loại thú cưng --</option>
+            </select>
+            <span asp-validation-for="TypePetId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Characteristics" class="form-label">Đặc điểm</label>
+            <input asp-for="Characteristics" class="form-control" />
+            <span asp-validation-for="Characteristics" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Age" class="form-label">Tuổi</label>
+            <input asp-for="Age" class="form-control" type="number" min="0" required />
+            <span asp-validation-for="Age" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Weight" class="form-label">Cân nặng (kg)</label>
+            <input asp-for="Weight" class="form-control" type="number" step="0.1" min="0" required />
+            <span asp-validation-for="Weight" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-success">
+            <i class="bi bi-save"></i> Lưu thay đổi
+        </button>
+        <a asp-action="Details" asp-route-id="@Model.PetId" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>

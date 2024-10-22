@@ -1,0 +1,28 @@
+﻿@model PetCare.Models.Role
+
+@{
+    ViewBag.Title = "Thêm nhân viên";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Thêm mới vai trò</h2>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+     <form asp-action="Create" method="post">
+         <div class="row">
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label asp-for="RoleName" class="form-label">Tên vai trò</label>
+                    <input asp-for="RoleName" class="form-control" required />
+                    <span asp-validation-for="RoleName" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-success">
+						<i class="bi bi-save"></i> Thêm
+                    </button>
+                <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+            </div>
+         </div>
+     </form>
+</div>

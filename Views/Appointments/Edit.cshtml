@@ -1,0 +1,67 @@
+﻿@model PetCare.Models.Appointment
+
+@{
+    ViewBag.Title = "Chỉnh sửa cuộc hẹn";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Chỉnh sửa cuộc hẹn</h2>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <form asp-action="Edit" asp-route-id="@Model.AppointmentId" method="post">
+        <input type="hidden" asp-for="AppointmentId" />
+
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Hiển thị thông tin khách hàng (không cho chỉnh sửa) -->
+                <div class="mb-3">
+                    <label class="form-label">Khách hàng</label>
+                    <input class="form-control" value="@Model.Customer.Account.FullName - @Model.Customer.Account.PhoneNumber" readonly />
+                    <input type="hidden" asp-for="CustomerId" />
+                </div>
+
+                <!-- Chọn dịch vụ -->
+                <div class="mb-3">
+                    <label asp-for="ServiceId" class="form-label">Dịch vụ</label>
+                    <select asp-for="ServiceId" asp-items="ViewBag.ServiceId" class="form-select" required>
+                        <option value="">-- Chọn dịch vụ --</option>
+                    </select>
+                    <span asp-validation-for="ServiceId" class="text-danger"></span>
+                </div>
+
+                <!-- Thời gian hẹn -->
+                <div class="mb-3">
+                    <label asp-for="AppointmentTime" class="form-label">Thời gian hẹn</label>
+                    <input asp-for="AppointmentTime" class="form-control" type="datetime-local" required min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                    <span asp-validation-for="AppointmentTime" class="text-danger"></span>
+                </div>
+
+                <!-- Ghi chú -->
+                <div class="mb-3">
+                    <label asp-for="Note" class="form-label">Ghi chú</label>
+                    <textarea asp-for="Note" class="form-control"></textarea>
+                    <span asp-validation-for="Note" class="text-danger"></span>
+                </div>
+
+                <!-- Trạng thái -->
+                <div class="mb-3">
+                    <label asp-for="Status" class="form-label">Trạng thái</label>
+                    @Html.DropDownListFor(m => m.Status, new List<SelectListItem>
+                    {
+                    new SelectListItem { Text = "Chưa hoàn thành", Value = "False" },
+                    new SelectListItem { Text = "Hoàn thành", Value = "True" }
+                    }, new { @class = "form-select" })
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+
+
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-save"></i> Lưu thay đổi
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+            </div>
+        </div>
+    </form>
+</div>

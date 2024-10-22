@@ -1,0 +1,47 @@
+﻿@model PetCare.Models.Account
+
+@{
+    ViewBag.Title = "Xóa tài khoản";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container mt-4">
+    <h2>Xóa tài khoản</h2>
+
+    <h4>Bạn có chắc chắn muốn xóa tài khoản này không?</h4>
+
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Email -->
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <p class="form-control-plaintext">@Model.Email</p>
+            </div>
+
+            <!-- Họ và tên -->
+            <div class="mb-3">
+                <label class="form-label">Họ và tên</label>
+                <p class="form-control-plaintext">@Model.FullName</p>
+            </div>
+
+            <!-- Số điện thoại -->
+            <div class="mb-3">
+                <label class="form-label">Số điện thoại</label>
+                <p class="form-control-plaintext">@Model.PhoneNumber</p>
+            </div>
+
+            <!-- Địa chỉ -->
+            <div class="mb-3">
+                <label class="form-label">Địa chỉ</label>
+                <p class="form-control-plaintext">@Model.Address</p>
+            </div>
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="AccountId" />
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Xóa
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+            </form>
+        </div>
+    </div>
+</div>

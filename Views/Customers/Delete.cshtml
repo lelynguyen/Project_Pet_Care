@@ -1,0 +1,25 @@
+﻿@model PetCare.Models.TypePet
+
+@{
+    ViewBag.Title = "Xoá loại thú cưng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Xoá loại thú cưng</h2>
+
+    <h4>Bạn có chắc chắn muốn xoá loại thú cưng này?</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Tên loại thú cưng</dt>
+        <dd class="col-sm-10">@Model.TypeName</dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="TypePetId" />
+        <button type="submit" class="btn btn-danger">
+            <i class="bi bi-trash"></i> Xoá
+        </button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>

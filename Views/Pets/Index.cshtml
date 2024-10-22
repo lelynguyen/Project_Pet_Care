@@ -1,0 +1,160 @@
+﻿@model IEnumerable<PetCare.Models.Pet>
+
+@{
+    ViewBag.Title = "Quản lý thú cưng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Danh sách thú cưng</h2>
+
+    <!-- Phần hiển thị TempData Message -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="tempDataMessage">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="tempDataMessage">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="mb-3">
+        <a href="@Url.Action("Create")" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Thêm thú cưng
+        </a>
+    </div>
+
+    <!-- Thanh tìm kiếm và nút sắp xếp -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm theo tên thú cưng hoặc chủ nhân...">
+        </div>
+        <div class="col-md-2">
+            <button id="sortButton" class="btn btn-primary" onclick="toggleSortOrder()">
+                <i class="bi bi-sort-alpha-down"></i> Sắp xếp A-Z
+            </button>
+        </div>
+    </div>
+
+    <table class="table table-striped table-hover" id="petTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên thú cưng</th>
+                <th>Loại</th>
+                <th>Chủ nhân</th>
+                <th>Tuổi</th>
+                <th>Cân nặng</th>
+                <th>Chức năng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pet in Model)
+            {
+                <tr>
+                    <td>@pet.PetId</td>
+                    <td>@pet.Name</td>
+                    <td>@pet.TypePet.TypeName</td>
+                    <td>@pet.Customer.Account.FullName</td>
+                    <td>@pet.Age</td>
+                    <td>@pet.Weight</td>
+                    <td>
+                        <a href="@Url.Action("Details", new { id = pet.PetId })" class="btn btn-info btn-sm">
+                            <i class="bi bi-info-circle"></i>
+                        </a>
+                        <a href="@Url.Action("Edit", new { id = pet.PetId })" class="btn btn-primary btn-sm">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a href="@Url.Action("Delete", new { id = pet.PetId })" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        // Biến lưu trữ thứ tự sắp xếp hiện tại
+        var sortOrderAsc = true;
+
+        // Hàm tìm kiếm trong bảng
+        document.getElementById('searchInput').addEventListener('keyup', function () {
+            var searchText = this.value.toLowerCase();
+            var rows = document.querySelectorAll('#petTable tbody tr');
+            var noResult = true;
+
+            rows.forEach(function (row) {
+                var petName = row.cells[1].innerText.toLowerCase();
+                var ownerName = row.cells[3].innerText.toLowerCase();
+
+                if (petName.includes(searchText) || ownerName.includes(searchText)) {
+                    row.style.display = '';
+                    noResult = false;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            // Hiển thị thông báo nếu không tìm thấy kết quả
+            var noResultRow = document.getElementById('noResultRow');
+            if (noResult) {
+                if (!noResultRow) {
+                    var colspan = document.querySelectorAll('#petTable thead th').length;
+                    noResultRow = document.createElement('tr');
+                    noResultRow.id = 'noResultRow';
+                    noResultRow.innerHTML = `<td colspan="${colspan}" class="text-center">Không tìm thấy kết quả.</td>`;
+                    document.querySelector('#petTable tbody').appendChild(noResultRow);
+                }
+            } else {
+                if (noResultRow) {
+                    noResultRow.remove();
+                }
+            }
+        });
+
+        // Hàm sắp xếp bảng
+        function toggleSortOrder() {
+            var table = document.getElementById('petTable');
+            var rows = Array.from(table.rows).slice(1); // Bỏ qua hàng tiêu đề
+
+            // Xác định cột cần sắp xếp (cột Tên thú cưng)
+            var columnIndex = 1;
+
+            rows.sort(function (a, b) {
+                var cellA = a.cells[columnIndex].innerText.toLowerCase();
+                var cellB = b.cells[columnIndex].innerText.toLowerCase();
+
+                if (cellA < cellB) return sortOrderAsc ? -1 : 1;
+                if (cellA > cellB) return sortOrderAsc ? 1 : -1;
+                return 0;
+            });
+
+            // Đảo ngược thứ tự sắp xếp
+            sortOrderAsc = !sortOrderAsc;
+
+            // Cập nhật biểu tượng và văn bản trên nút sắp xếp
+            var sortButton = document.getElementById('sortButton');
+            if (sortOrderAsc) {
+                sortButton.innerHTML = '<i class="bi bi-sort-alpha-down"></i> Sắp xếp A-Z';
+            } else {
+                sortButton.innerHTML = '<i class="bi bi-sort-alpha-up"></i> Sắp xếp Z-A';
+            }
+
+            // Thêm các hàng đã sắp xếp vào bảng
+            var tbody = table.tBodies[0];
+            tbody.innerHTML = '';
+            rows.forEach(function (row) {
+                tbody.appendChild(row);
+            });
+        }
+    </script>
+}

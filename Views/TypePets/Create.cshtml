@@ -1,0 +1,26 @@
+﻿@model PetCare.Models.TypePet
+
+@{
+    ViewBag.Title = "Thêm loại thú cưng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Thêm loại thú cưng</h2>
+
+    <form asp-action="Create" method="post">
+        <div class="mb-3">
+            <label asp-for="TypeName" class="form-label">Tên loại thú cưng</label>
+            <input asp-for="TypeName" class="form-control" required />
+            <span asp-validation-for="TypeName" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-success">
+            <i class="bi bi-save"></i> Lưu
+        </button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

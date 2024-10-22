@@ -1,0 +1,70 @@
+﻿body {
+    overflow-x: hidden;
+}
+
+#sidebar {
+    min-width: 270px; /* Tăng chiều rộng thêm 20px */
+    max-width: 270px; /* Tăng chiều rộng thêm 20px */
+    background: #343a40;
+    color: #fff;
+    transition: all 0.3s;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+    #sidebar .nav-link {
+        color: #fff;
+        padding-left: 20px; /* Thêm padding để các mục không rơi xuống hàng */
+    }
+
+        #sidebar .nav-link:hover {
+            background: #495057;
+        }
+
+        #sidebar .nav-link.collapsed .bi-chevron-down {
+            transform: rotate(0deg);
+        }
+
+        #sidebar .nav-link .bi-chevron-down {
+            margin-left: auto;
+            transition: transform 0.3s;
+        }
+
+        #sidebar .nav-link:not(.collapsed) .bi-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        /* Thêm khoảng cách giữa icon và chữ */
+        #sidebar .nav-link i {
+            margin-right: 10px; /* Thêm khoảng cách 10px giữa icon và chữ */
+        }
+
+#content {
+    width: calc(100% - 270px); /* Điều chỉnh chiều rộng của content theo sidebar */
+    margin-left: 270px; /* Điều chỉnh khoảng cách lề cho phù hợp với sidebar mới */
+    transition: all 0.3s;
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -270px; /* Điều chỉnh chiều rộng của sidebar khi thu nhỏ */
+    }
+
+        #sidebar.active {
+            margin-left: 0;
+        }
+
+    #content {
+        width: 100%;
+        margin: 0;
+    }
+
+    #sidebarCollapse {
+        display: inline-block;
+    }
+}
+
+#sidebarCollapse {
+    display: none;
+}

@@ -1,0 +1,29 @@
+﻿@model PetCare.Models.Role
+
+@{
+    ViewBag.Title = "Chỉnh sửa vai trò";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Chỉnh sửa thông tin vai trò</h2>
+
+	@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+	<form asp-action="Edit" asp-route-id="@Model.RoleId" method="post">
+		<input type="hidden" asp-for="RoleId" />
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label asp-for="RoleName" class="form-label>">Tên vai trò</label>
+					<input asp-for="RoleName" class="form-control" required />
+					</div>
+				<button type="submit" class="btn btn-success">
+					<i class="bi bi-save"></i> Lưu thay đổi
+				</button>
+				<a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+			</div>
+		</div>
+	</form>
+</div>

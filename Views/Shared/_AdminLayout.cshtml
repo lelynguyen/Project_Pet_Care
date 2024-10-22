@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Pet Care Panel</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <!-- Custom CSS for Admin Layout -->
+    <link href="~/css/adminPage.css" rel="stylesheet" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <div class="d-flex">
+        <nav id="sidebar">
+            <div class="p-4">
+                <h4 class="text-white">Admin Panel</h4>
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "Dashboards")" class="nav-link">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Accounts")" class="nav-link">
+                            <i class="bi bi-people"></i> Quản lý tài khoản
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#employeeSubmenu" data-bs-toggle="collapse" class="nav-link d-flex align-items-center collapsed" aria-expanded="false">
+                            <i class="bi bi-person-badge"></i> Quản lý nhân viên
+                            <i class="bi bi-chevron-down ms-auto"></i>
+                        </a>
+                        <ul class="collapse list-unstyled" id="employeeSubmenu">
+                            <li>
+                                <a href="@Url.Action("Index", "Employees")" class="nav-link ms-4">Nhân viên</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Roles")" class="nav-link ms-4">Vai trò</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#customerPetSubmenu" data-bs-toggle="collapse" class="nav-link d-flex align-items-center collapsed" aria-expanded="false">
+                            <i class="bi bi-heart"></i> Quản lý KH &amp; Pet
+                            <i class="bi bi-chevron-down ms-auto"></i>
+                        </a>
+                        <ul class="collapse list-unstyled" id="customerPetSubmenu">
+                            <li>
+                                <a href="@Url.Action("Index", "Customers")" class="nav-link ms-4">Khách hàng</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Pets")" class="nav-link ms-4">Thú cưng</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Appointments")" class="nav-link">
+                            <i class="bi bi-calendar-check"></i> Quản lý lịch hẹn
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#transactionSubmenu" data-bs-toggle="collapse" class="nav-link d-flex align-items-center collapsed" aria-expanded="false">
+                            <i class="bi bi-currency-exchange"></i> Quản lý giao dịch
+                            <i class="bi bi-chevron-down ms-auto"></i>
+                        </a>
+                        <ul class="collapse list-unstyled" id="transactionSubmenu">
+                            <li>
+                                <a href="@Url.Action("Index", "Orders")" class="nav-link ms-4">Đơn hàng</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Invoices")" class="nav-link ms-4">Hoá đơn</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#systemInfoSubmenu" data-bs-toggle="collapse" class="nav-link d-flex align-items-center collapsed" aria-expanded="false">
+                            <i class="bi bi-gear"></i> Quản lý thông tin
+                            <i class="bi bi-chevron-down ms-auto"></i>
+                        </a>
+                        <ul class="collapse list-unstyled" id="systemInfoSubmenu">
+                            <li>
+                                <a href="@Url.Action("Index", "TypePets")" class="nav-link ms-4">Loại thú cưng</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Services")" class="nav-link ms-4">Dịch vụ</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Posts")" class="nav-link ms-4">Bài đăng</a>
+                            </li>
+                        </ul>
+                    </li>       
+                </ul>
+            </div>
+        </nav>
+        <!-- Page Content -->
+        <div id="content">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                        <i class="bi bi-three-dots-vertical"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarContent">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Cài đặt</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Đăng xuất</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            
+
+            <div class="container-fluid">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Font Awesome JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+
+    <!-- Sidebar Toggle Script và các sự kiện menu -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var sidebarCollapse = document.getElementById('sidebarCollapse');
+            var sidebar = document.getElementById('sidebar');
+
+            sidebarCollapse.addEventListener('click', function () {
+                sidebar.classList.toggle('active');
+            });
+
+            // Ẩn TempData Message sau 3 giây
+            var tempMessage = document.getElementById("tempDataMessage");
+            if (tempMessage) {
+                setTimeout(function() {
+                    var alert = new bootstrap.Alert(tempMessage);
+                    alert.close();
+                }, 3000);
+            }
+        });
+    </script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,69 @@
+﻿@model IEnumerable<PetCare.Models.Customer>
+
+@{
+    ViewBag.Title = "Quản lý khách hàng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Danh sách khách hàng</h2>
+
+    <!-- Phần hiển thị TempData Message -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="tempDataMessage">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="tempDataMessage">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="mb-3">
+        <a href="@Url.Action("Create")" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Thêm khách hàng
+        </a>
+    </div>
+
+    <!-- Thanh tìm kiếm và nút sắp xếp (tuỳ chọn) -->
+    <!-- Bạn có thể thêm chức năng tìm kiếm và sắp xếp tương tự như trong Employees -->
+
+    <table class="table table-striped table-hover" id="customerTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Họ và tên</th>
+                <th>Email</th>
+                <th>SĐT</th>
+                <th>Chức năng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in Model)
+            {
+                <tr>
+                    <td>@customer.CustomerId</td>
+                    <td>@customer.Account.FullName</td>
+                    <td>@customer.Account.Email</td>
+                    <td>@customer.Account.PhoneNumber</td>
+                    <td>
+                        <a href="@Url.Action("Details", new { id = customer.CustomerId })" class="btn btn-info btn-sm">
+                            <i class="bi bi-info-circle"></i>
+                        </a>
+                        <a href="@Url.Action("Edit", new { id = customer.CustomerId })" class="btn btn-primary btn-sm">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a href="@Url.Action("Delete", new { id = customer.CustomerId })" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

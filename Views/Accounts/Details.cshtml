@@ -1,0 +1,43 @@
+﻿@model PetCare.Models.Account
+
+@{
+    ViewBag.Title = "Chi tiết tài khoản";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Chi tiết tài khoản</h2>
+
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Email -->
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <p class="form-control-plaintext">@Model.Email</p>
+            </div>
+
+            <!-- Họ và tên -->
+            <div class="mb-3">
+                <label class="form-label">Họ và tên</label>
+                <p class="form-control-plaintext">@Model.FullName</p>
+            </div>
+
+            <!-- Số điện thoại -->
+            <div class="mb-3">
+                <label class="form-label">Số điện thoại</label>
+                <p class="form-control-plaintext">@Model.PhoneNumber</p>
+            </div>
+
+            <!-- Địa chỉ -->
+            <div class="mb-3">
+                <label class="form-label">Địa chỉ</label>
+                <p class="form-control-plaintext">@Model.Address</p>
+            </div>
+
+            <a asp-action="Edit" asp-route-id="@Model.AccountId" class="btn btn-primary">
+                <i class="bi bi-pencil-square"></i> Chỉnh sửa
+            </a>
+            <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+        </div>
+    </div>
+</div>

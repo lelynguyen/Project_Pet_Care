@@ -1,0 +1,153 @@
+﻿@model IEnumerable<PetCare.Models.Employee>
+
+@{
+    ViewBag.Title = "Quản lý nhân viên";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Danh sách nhân viên</h2>
+
+    <!-- Phần hiển thị TempData Message -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="tempDataMessage">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="tempDataMessage">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="mb-3">
+        <a href="@Url.Action("Create")" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Thêm nhân viên
+        </a>
+    </div>
+
+    <!-- Thanh tìm kiếm và nút sắp xếp -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm theo tên hoặc email...">
+        </div>
+        <div class="col-md-2">
+            <button id="sortButton" class="btn btn-primary" onclick="toggleSortOrder()">
+                <i class="bi bi-sort-alpha-down"></i> Sắp xếp A-Z
+            </button>
+        </div>
+    </div>
+    <!-- Tạo view bảng -->
+    <table class="table table-striped table-hover" id="employeeTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Họ và tên</th>
+                <th>Email</th>
+                <th>SĐT</th>
+                <th>Vai trò</th>
+                <th>Chức năng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Model)
+            {
+                <tr>
+                    <td>@employee.EmployeeId</td>
+                    <td>@employee.Account.FullName</td>
+                    <td>@employee.Account.Email</td>
+                    <td>@employee.Account.PhoneNumber</td>
+                    <td>@employee.Role.RoleName</td>
+                    <td>
+                        <a href="@Url.Action("Edit", new { id = employee.EmployeeId })" class="btn btn-primary btn-sm">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a href="@Url.Action("Delete", new { id = employee.EmployeeId })" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        // Biến lưu trữ thứ tự sắp xếp hiện tại
+        var sortOrderAsc = true;
+
+        // Hàm tìm kiếm trong bảng
+        document.getElementById('searchInput').addEventListener('keyup', function () {
+            var searchText = this.value.toLowerCase();
+            var rows = document.querySelectorAll('#employeeTable tbody tr');
+
+            rows.forEach(function (row) {
+                var name = row.cells[1].innerText.toLowerCase();
+                var email = row.cells[2].innerText.toLowerCase();
+
+                if (name.includes(searchText) || email.includes(searchText)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            // Hiển thị thông báo nếu không tìm thấy kết quả
+            var noResultRow = document.getElementById('noResultRow');
+            if (noResult) {
+                if (!noResultRow) {
+                    var colspan = document.querySelectorAll('#employeeTable thead th').length;
+                    noResultRow = document.createElement('tr');
+                    noResultRow.id = 'noResultRow';
+                    noResultRow.innerHTML = `<td colspan="${colspan}" class="text-center">Không tìm thấy kết quả.</td>`;
+                    document.querySelector('#employeeTable tbody').appendChild(noResultRow);
+                }
+            } else {
+                if (noResultRow) {
+                    noResultRow.remove();
+                }
+            }
+        });
+
+        // Hàm sắp xếp bảng
+        function toggleSortOrder() {
+            var table = document.getElementById('employeeTable');
+            var rows = Array.from(table.rows).slice(1); // Bỏ qua hàng tiêu đề
+
+            // Xác định cột cần sắp xếp (cột Họ và tên)
+            var columnIndex = 1;
+
+            rows.sort(function (a, b) {
+                var cellA = a.cells[columnIndex].innerText.toLowerCase();
+                var cellB = b.cells[columnIndex].innerText.toLowerCase();
+
+                if (cellA < cellB) return sortOrderAsc ? -1 : 1;
+                if (cellA > cellB) return sortOrderAsc ? 1 : -1;
+                return 0;
+            });
+
+            // Đảo ngược thứ tự sắp xếp
+            sortOrderAsc = !sortOrderAsc;
+
+            // Cập nhật biểu tượng và văn bản trên nút sắp xếp
+            var sortButton = document.getElementById('sortButton');
+            if (sortOrderAsc) {
+                sortButton.innerHTML = '<i class="bi bi-sort-alpha-down"></i> Sắp xếp A-Z';
+            } else {
+                sortButton.innerHTML = '<i class="bi bi-sort-alpha-up"></i> Sắp xếp Z-A';
+            }
+
+            // Thêm các hàng đã sắp xếp vào bảng
+            var tbody = table.tBodies[0];
+            tbody.innerHTML = '';
+            rows.forEach(function (row) {
+                tbody.appendChild(row);
+            });
+        }
+    </script>
+}

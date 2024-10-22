@@ -1,0 +1,31 @@
+﻿@model PetCare.Models.Service
+
+@{
+    ViewBag.Title = "Xoá dịch vụ";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Xoá dịch vụ</h2>
+
+    <h4>Bạn có chắc chắn muốn xoá dịch vụ này?</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Loại dịch vụ</dt>
+        <dd class="col-sm-10">@Model.ServiceName</dd>
+
+        <dt class="col-sm-2">Giá (đồng)</dt>
+        <dd class="col-sm-10">@string.Format("{0:N0}", Model.Price) đồng</dd>
+
+        <dt class="col-sm-2">Ghi chú</dt>
+        <dd class="col-sm-10">@Model.Note</dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ServiceId" />
+        <button type="submit" class="btn btn-danger">
+            <i class="bi bi-trash"></i> Xoá
+        </button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>

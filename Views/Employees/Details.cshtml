@@ -1,0 +1,35 @@
+﻿@model PetCare.Models.Employee
+
+@{
+    ViewBag.Title = "Chi tiết nhân viên";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Chi tiết nhân viên</h2>
+
+    <dl class="row">
+        <dt class="col-sm-2">ID</dt>
+        <dd class="col-sm-10">@Model.EmployeeId</dd>
+
+        <dt class="col-sm-2">Họ và tên</dt>
+        <dd class="col-sm-10">@Model.Account.FullName</dd>
+
+        <dt class="col-sm-2">Email</dt>
+        <dd class="col-sm-10">@Model.Account.Email</dd>
+
+        <dt class="col-sm-2">Số điện thoại</dt>
+        <dd class="col-sm-10">@Model.Account.PhoneNumber</dd>
+
+        <dt class="col-sm-2">Địa chỉ</dt>
+        <dd class="col-sm-10">@Model.Account.Address</dd>
+
+        <dt class="col-sm-2">Vai trò</dt>
+        <dd class="col-sm-10">@Model.Role.RoleName</dd>
+    </dl>
+
+    <a asp-action="Edit" asp-route-id="@Model.EmployeeId" class="btn btn-primary">
+        <i class="bi bi-pencil-square"></i> Chỉnh sửa
+    </a>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</div>

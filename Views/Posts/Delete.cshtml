@@ -1,0 +1,49 @@
+﻿@model PetCare.Models.Post
+
+@{
+    ViewBag.Title = "Xóa bài đăng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Xóa bài đăng</h2>
+
+    <h4>Bạn có chắc chắn muốn xóa bài đăng này không?</h4>
+
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Tiêu đề -->
+            <div class="mb-3">
+                <label class="form-label">Tiêu đề</label>
+                <p class="form-control-plaintext">@Model.Title</p>
+            </div>
+
+            <!-- Mô tả -->
+            <div class="mb-3">
+                <label class="form-label">Mô tả</label>
+                <p class="form-control-plaintext">@Model.Description</p>
+            </div>
+
+            <!-- Hình ảnh -->
+            <div class="mb-3">
+                <label class="form-label">Hình ảnh</label><br />
+                @if (!string.IsNullOrEmpty(Model.Image))
+                {
+                    <img src="@Model.Image" alt="Hình ảnh" width="400" />
+                }
+                else
+                {
+                    <p>Chưa có hình ảnh</p>
+                }
+            </div>
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="PostId" />
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Xóa
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+            </form>
+        </div>
+    </div>
+</div>

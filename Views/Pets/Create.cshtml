@@ -1,0 +1,60 @@
+﻿@model PetCare.Models.Pet
+
+@{
+    ViewBag.Title = "Thêm thú cưng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Thêm mới thú cưng</h2>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <form asp-action="Create" method="post">
+        @if (ViewBag.CustomerId != null && ViewBag.CustomerId is int)
+        {
+            <input type="hidden" asp-for="CustomerId" value="@ViewBag.CustomerId" />
+        }
+        else
+        {
+            <div class="mb-3">
+                <label asp-for="CustomerId" class="form-label">Khách hàng</label>
+                <select asp-for="CustomerId" asp-items="@(new SelectList(ViewBag.CustomerId, "CustomerId", "Account.FullName"))" class="form-select" required>
+                    <option value="">-- Chọn khách hàng --</option>
+                </select>
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>
+        }
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Tên thú cưng</label>
+            <input asp-for="Name" class="form-control" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="TypePetId" class="form-label">Loại thú cưng</label>
+            <select asp-for="TypePetId" asp-items="ViewBag.TypePetId" class="form-select" required>
+                <option value="">-- Chọn loại thú cưng --</option>
+            </select>
+            <span asp-validation-for="TypePetId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Characteristics" class="form-label">Đặc điểm</label>
+            <input asp-for="Characteristics" class="form-control" />
+            <span asp-validation-for="Characteristics" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Age" class="form-label">Tuổi</label>
+            <input asp-for="Age" class="form-control" type="number" min="0" required />
+            <span asp-validation-for="Age" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Weight" class="form-label">Cân nặng (kg)</label>
+            <input asp-for="Weight" class="form-control" type="number" step="0.1" min="0" required />
+            <span asp-validation-for="Weight" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-success">
+            <i class="bi bi-save"></i> Thêm
+        </button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>
