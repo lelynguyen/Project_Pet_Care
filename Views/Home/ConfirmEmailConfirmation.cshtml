@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Email Confirmation";
+    Layout = null;
+}
+
+<div class="container mt-5">
+    <div class="alert alert-info">
+        @ViewBag.Message
+    </div>
+    <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Back to Home</a>
+</div>

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PetCare.Models;
+using PetCare.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddTransient<EmailSender>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -11,8 +13,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<PetCareContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Cấu hình Session
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
 
-// Build the app
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,15 +33,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// Nếu không sử dụng Areas, bạn có thể bỏ đoạn này
-// app.MapControllerRoute(
-//     name: "areas",
-//     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-// );
+// Sử dụng Session
+app.UseSession();
+
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Accounts}/{action=Index}/{id?}"
-);
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
